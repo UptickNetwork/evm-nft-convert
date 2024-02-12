@@ -47,7 +47,7 @@ func (AppModuleBasic) ConsensusVersion() uint64 {
 	return 1
 }
 
-// RegisterInterfaces registers interfaces and implementations of the erc20 module.
+// RegisterInterfaces registers interfaces and implementations of the module.
 func (AppModuleBasic) RegisterInterfaces(interfaceRegistry codectypes.InterfaceRegistry) {
 	types.RegisterInterfaces(interfaceRegistry)
 }
@@ -130,7 +130,6 @@ func (am AppModule) LegacyQuerierHandler(amino *codec.LegacyAmino) sdk.Queryable
 func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), am.keeper)
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
-
 	_ = keeper.NewMigrator(am.keeper)
 }
 

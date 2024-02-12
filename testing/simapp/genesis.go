@@ -1,4 +1,4 @@
-package simapp
+package app
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"

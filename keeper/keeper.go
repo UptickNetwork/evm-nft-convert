@@ -14,9 +14,6 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
 	"github.com/UptickNetwork/evm-nft-convert/types"
-	ibcnfttransferkeeper "github.com/bianjieai/nft-transfer/keeper"
-
-	ibcnfttransfertypes "github.com/bianjieai/nft-transfer/types"
 )
 
 // Keeper of this module maintains collections of erc721.
@@ -29,7 +26,6 @@ type Keeper struct {
 	nftKeeper     nftkeeper.Keeper
 	evmKeeper     types.EVMKeeper
 	ics4Wrapper   porttypes.ICS4Wrapper
-	ibcKeeper     ibcnfttransferkeeper.Keeper
 }
 
 // Logger returns a module-specific logger.
@@ -45,17 +41,4 @@ func (k *Keeper) SetICS4Wrapper(ics4Wrapper porttypes.ICS4Wrapper) {
 	}
 
 	k.ics4Wrapper = ics4Wrapper
-}
-
-func (k *Keeper) GetVoucherClassID(port string, channel string, classId string) string {
-	// since SendPacket did not prefix the classID, we must prefix classID here
-	classPrefix := ibcnfttransfertypes.GetClassPrefix(port, channel)
-	// NOTE: sourcePrefix contains the trailing "/"
-	prefixedClassID := classPrefix + classId
-
-	// construct the class trace from the full raw classID
-	classTrace := ibcnfttransfertypes.ParseClassTrace(prefixedClassID)
-	voucherClassID := classTrace.IBCClassID()
-
-	return voucherClassID
 }

@@ -8,8 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	"github.com/stretchr/testify/require"
 
-	"github.com/bianjieai/nft-transfer/testing/simapp"
-	"github.com/bianjieai/nft-transfer/testing/simapp/simd/cmd"
+	"github.com/UptickNetwork/evm-nft-convert/testing/simapp/simd/cmd"
 )
 
 func TestInitCmd(t *testing.T) {
@@ -20,5 +19,5 @@ func TestInitCmd(t *testing.T) {
 		fmt.Sprintf("--%s=%s", cli.FlagOverwrite, "true"), // Overwrite genesis.json, in case it already exists
 	})
 
-	require.NoError(t, svrcmd.Execute(rootCmd, "simd", simapp.DefaultNodeHome))
+	require.NoError(t, svrcmd.Execute(rootCmd, "simd", ""))
 }

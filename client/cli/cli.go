@@ -20,7 +20,6 @@ func GetQueryCmd() *cobra.Command {
 		GetTokenPairsCmd(),
 		GetTokenPairCmd(),
 		GetParamsCmd(),
-		GetEvmAddressFromIBCCmd(),
 	)
 	return cmd
 }

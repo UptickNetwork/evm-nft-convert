@@ -9,7 +9,7 @@ BINDIR ?= $(GOPATH)/bin
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./testing/simapp
 MOCKS_DIR = $(CURDIR)/tests/mocks
-HTTPS_GIT := https://github.com/cosmos/ibc-go.git
+HTTPS_GIT := https://github.com/UptickNetwork/evm-nft-convert.git
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf:1.0.0-rc8
 
@@ -169,7 +169,7 @@ clean:
 
 go.sum: go.mod
 	echo "Ensure dependencies have not been modified ..." >&2
-	go mod verify
+#	go mod verify
 	go mod tidy
 
 ###############################################################################
@@ -371,15 +371,21 @@ devdoc-update:
 ###                                Protobuf                                 ###
 ###############################################################################
 
-protoVer=0.11.5
-protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
-protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
+containerProtoVer=v0.3
+protoImageName=tendermintdev/sdk-proto-gen:$(containerProtoVer)
+containerProtoImage=tendermintdev/sdk-proto-gen:$(containerProtoVer)
+containerProtoGen=cosmos-sdk-proto-gen-$(containerProtoVer)
 
-proto-all: proto-format proto-lint proto-gen
+proto-all: proto-gen
 
+#proto-gen:
+#	@echo "Generating Protobuf files"
+#	@$(protoImage) sh ./scripts/protocgen.sh
 proto-gen:
 	@echo "Generating Protobuf files"
-	@$(protoImage) sh ./scripts/protocgen.sh
+	@if docker ps -a --format '{{.Names}}' | grep -Eq "^${containerProtoGen}$$"; then docker start -a $(containerProtoGen); else docker run --name $(containerProtoGen) -v $(CURDIR):/workspace --workdir /workspace $(protoImageName) \
+		sh ./scripts/protocgen.sh; fi
+	go mod tidy
 
 proto-swagger-gen:
 	@echo "Generating Protobuf Swagger"

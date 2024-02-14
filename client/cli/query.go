@@ -11,6 +11,25 @@ import (
 	"github.com/UptickNetwork/evm-nft-convert/types"
 )
 
+// GetQueryCmd returns the parent command for all erc721 CLI query commands.
+func GetQueryCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:                        types.ModuleName,
+		Short:                      "Querying commands for the erc721 module",
+		DisableFlagParsing:         true,
+		SuggestionsMinimumDistance: 2,
+		RunE:                       client.ValidateCmd,
+	}
+
+	cmd.AddCommand(
+		GetTokenPairsCmd(),
+		GetTokenPairCmd(),
+		GetParamsCmd(),
+		GetEvmAddressFromIBCCmd(),
+	)
+	return cmd
+}
+
 // GetTokenPairsCmd queries all registered token pairs
 func GetTokenPairsCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -98,6 +117,39 @@ func GetParamsCmd() *cobra.Command {
 			req := &types.QueryParamsRequest{}
 
 			res, err := queryClient.Params(context.Background(), req)
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+func GetEvmAddressFromIBCCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "evm-contract [port] [channel] [classId]",
+		Short: "Get a evm contract form ibc info ",
+		Long:  "Get a evm contract form ibc info ",
+		Args:  cobra.ExactArgs(3),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			req := &types.QueryEvmAddressRequest{
+				Port:    args[0],
+				Channel: args[1],
+				ClassId: args[2],
+			}
+
+			res, err := queryClient.EvmContract(context.Background(), req)
 			if err != nil {
 				return err
 			}

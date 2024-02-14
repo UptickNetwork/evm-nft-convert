@@ -21,5 +21,5 @@ buf protoc \
     $(find "$(pwd)/proto" -maxdepth 5 -name '*.proto')
 
 # move proto files to the right places
-cp -r github.com/UptickNetwork/uptick/x/erc721/types/* ./types/
+cp -r github.com/UptickNetwork/evm-nft-convert/types/* ./types/
 rm -rf github.com

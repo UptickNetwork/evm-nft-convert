@@ -8,8 +8,8 @@ import (
 )
 
 // GetPair checks that:
-//  - the global parameter for erc721 conversion is enabled
-//  - minting is enabled for the given (erc721,nft) token pair
+//   - the global parameter for erc721 conversion is enabled
+//   - minting is enabled for the given (erc721,nft) token pair
 func (k Keeper) GetPair(
 	ctx sdk.Context,
 	token string,

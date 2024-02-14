@@ -6,6 +6,8 @@ import (
 	"math/big"
 	"strings"
 
+	ibcnfttransfertypes "github.com/bianjieai/nft-transfer/types"
+
 	"github.com/UptickNetwork/uptick/x/collection/exported"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -19,6 +21,54 @@ import (
 )
 
 var _ types.MsgServer = &Keeper{}
+
+// TransferERC721 converts ERC721 tokens into native Cosmos nft for both
+// Cosmos-native and ERC721 TokenPair Owners and transfer through IBC
+func (k Keeper) TransferERC721(
+	goCtx context.Context,
+	msg *types.MsgTransferERC721,
+) (
+	*types.MsgTransferERC721Response, error,
+) {
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	convertMsg := types.MsgConvertERC721{
+		EvmContractAddress: msg.EvmContractAddress,
+		EvmTokenIds:        msg.EvmTokenIds,
+		CosmosReceiver:     types.AccModuleAddress.String(),
+		EvmSender:          msg.EvmSender,
+		ClassId:            msg.ClassId,
+		CosmosTokenIds:     msg.CosmosTokenIds,
+	}
+	resMsg, err := k.ConvertERC721(ctx, &convertMsg)
+	if err != nil {
+		return nil, sdkerrors.Wrapf(err, "failed to ConvertERC721 %v", err)
+	}
+
+	ibcMsg := ibcnfttransfertypes.MsgTransfer{
+		SourcePort:       msg.SourcePort,
+		SourceChannel:    msg.SourceChannel,
+		ClassId:          resMsg.ClassId,
+		TokenIds:         resMsg.CosmosTokenIds,
+		Sender:           types.AccModuleAddress.String(),
+		Receiver:         msg.CosmosReceiver,
+		TimeoutHeight:    msg.TimeoutHeight,
+		TimeoutTimestamp: msg.TimeoutTimestamp,
+		Memo:             msg.Memo + types.TransferERC721Memo,
+	}
+
+	_, err = k.ibcKeeper.Transfer(goCtx, &ibcMsg)
+	if err != nil {
+		return nil, sdkerrors.Wrapf(err, "failed to ibc Transfer %v", err)
+	}
+
+	for _, evmTokenId := range msg.CosmosTokenIds {
+		k.SetEvmAddressByContractTokenId(ctx, msg.EvmContractAddress, evmTokenId, msg.EvmSender)
+	}
+
+	return &types.MsgTransferERC721Response{}, nil
+
+}
 
 // ConvertERC721 converts ERC721 tokens into native Cosmos nft for both
 // Cosmos-native and ERC721 TokenPair Owners
@@ -341,4 +391,38 @@ func (k Keeper) convertEvm2Cosmos(
 	)
 
 	return msg, nil
+}
+
+// RefundPacketToken handles the erc721 conversion for a native erc721 token
+// pair:
+//   - escrow tokens on module account
+//   - mint nft to the receiver: nftId: tokenAddress|tokenID
+func (k Keeper) RefundPacketToken(
+	ctx sdk.Context,
+	data ibcnfttransfertypes.NonFungibleTokenPacketData,
+) error {
+
+	erc721 := contracts.ERC721UpticksContract.ABI
+	for _, tokenId := range data.TokenIds {
+
+		uNftID := types.CreateNFTUID(data.ClassId, tokenId)
+		emvTokenId, evmContractAddress := types.GetNFTFromUID(string(k.GetTokenUIDPairByNFTUID(ctx, uNftID)))
+
+		bigTokenId := new(big.Int)
+		_, err := fmt.Sscan(emvTokenId, bigTokenId)
+		if err != nil {
+			sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error scanning value", err)
+			return err
+		}
+
+		evmReceiver := k.GetEvmAddressByContractTokenId(ctx, evmContractAddress, tokenId)
+		_, err = k.CallEVM(
+			ctx, erc721, types.ModuleAddress, common.HexToAddress(evmContractAddress), true,
+			"safeTransferFrom", types.ModuleAddress, common.HexToAddress(string(evmReceiver)), bigTokenId)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

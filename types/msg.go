@@ -10,11 +10,13 @@ import (
 var (
 	_ sdk.Msg = &MsgConvertNFT{}
 	_ sdk.Msg = &MsgConvertERC721{}
+	_ sdk.Msg = &MsgTransferERC721{}
 )
 
 const (
-	TypeMsgConvertNFT    = "convert_nft"
-	TypeMsgConvertERC721 = "convert_ERC721"
+	TypeMsgConvertNFT     = "convert_nft"
+	TypeMsgConvertERC721  = "convert_ERC721"
+	TypeMsgTransferERC721 = "transfer_ERC721"
 )
 
 //----------- TypeMsgConvertNFT --------------------
@@ -76,6 +78,36 @@ func (msg *MsgConvertERC721) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgConvertERC721) GetSigners() []sdk.AccAddress {
+	addr := common.HexToAddress(msg.EvmSender)
+	return []sdk.AccAddress{addr.Bytes()}
+}
+
+// ----------- MsgTransferERC721 --------------------
+
+// Route should return the name of the module
+func (msg MsgTransferERC721) Route() string { return RouterKey }
+
+// Type should return the action
+func (msg MsgTransferERC721) Type() string { return TypeMsgTransferERC721 }
+
+// ValidateBasic runs stateless checks on the message
+func (msg MsgTransferERC721) ValidateBasic() error {
+	if !common.IsHexAddress(msg.EvmContractAddress) {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
+	}
+	if !common.IsHexAddress(msg.EvmSender) {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
+	}
+	return nil
+}
+
+// GetSignBytes encodes the message for signing
+func (msg *MsgTransferERC721) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgTransferERC721) GetSigners() []sdk.AccAddress {
 	addr := common.HexToAddress(msg.EvmSender)
 	return []sdk.AccAddress{addr.Bytes()}
 }

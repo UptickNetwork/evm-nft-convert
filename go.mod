@@ -44,6 +44,7 @@ require cosmossdk.io/math v1.1.2
 require (
 	cosmossdk.io/simapp v0.0.0-20230608160436-666c345ad23d
 	github.com/UptickNetwork/uptick v0.2.18
+	github.com/bianjieai/nft-transfer v1.1.3-ibc-v7.3.0
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/ibc-go/v7 v7.3.0
 	github.com/gogo/protobuf v1.3.2
@@ -58,7 +59,6 @@ require (
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/CosmWasm/wasmd v0.45.0 // indirect
 	github.com/CosmWasm/wasmvm v1.5.0 // indirect
-	github.com/bianjieai/nft-transfer v1.1.3-ibc-v7.3.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
 	github.com/cockroachdb/errors v1.10.0 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect

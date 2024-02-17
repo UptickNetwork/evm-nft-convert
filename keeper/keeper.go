@@ -14,8 +14,6 @@ import (
 
 	"github.com/UptickNetwork/evm-nft-convert/types"
 	ibcnfttransferkeeper "github.com/bianjieai/nft-transfer/keeper"
-
-	cw721keep "github.com/UptickNetwork/uptick/x/cw721/keeper"
 	ibcnfttransfertypes "github.com/bianjieai/nft-transfer/types"
 )
 
@@ -30,7 +28,6 @@ type Keeper struct {
 	evmKeeper     types.EVMKeeper
 	ics4Wrapper   porttypes.ICS4Wrapper
 	ibcKeeper     ibcnfttransferkeeper.Keeper
-	cw721Keep     cw721keep.Keeper
 }
 
 // NewKeeper creates new instances of the erc721 Keeper
@@ -71,13 +68,6 @@ func (k *Keeper) SetICS4Wrapper(ics4Wrapper porttypes.ICS4Wrapper) {
 	}
 
 	k.ics4Wrapper = ics4Wrapper
-}
-
-// SetCw721Keeper sets the ICS4 wrapper to the keeper.
-// It panics if already set
-func (k *Keeper) SetCw721Keeper(cw721keeper cw721keep.Keeper) {
-
-	k.cw721Keep = cw721keeper
 }
 
 func (k *Keeper) GetVoucherClassID(port string, channel string, classId string) string {

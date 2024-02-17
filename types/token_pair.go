@@ -2,6 +2,7 @@ package types
 
 import (
 	"github.com/cometbft/cometbft/crypto/tmhash"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -12,7 +13,7 @@ import (
 // NewTokenPair returns an instance of TokenPair
 func NewTokenPair(erc721Address common.Address, classID string) TokenPair {
 	return TokenPair{
-		Erc721Address: erc721Address.String(),
+		Erc721Address: strings.ToLower(erc721Address.String()),
 		ClassId:       classID,
 	}
 }

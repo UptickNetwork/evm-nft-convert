@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 
@@ -73,7 +74,7 @@ func (k Keeper) DeleteTokenPair(ctx sdk.Context, tokenPair types.TokenPair) {
 // GetERC721Map returns the token pair id for the given address
 func (k Keeper) GetERC721Map(ctx sdk.Context, erc721 common.Address) []byte {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	return store.Get(erc721.Bytes())
+	return store.Get([]byte(strings.ToLower(erc721.String())))
 }
 
 // GetClassMap returns the token pair id for the given class
@@ -85,13 +86,13 @@ func (k Keeper) GetClassMap(ctx sdk.Context, classID string) []byte {
 // SetERC721Map sets the token pair id for the given address
 func (k Keeper) SetERC721Map(ctx sdk.Context, erc721 common.Address, id []byte) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	store.Set(erc721.Bytes(), id)
+	store.Set([]byte(strings.ToLower(erc721.String())), id)
 }
 
 // DeleteERC721Map deletes the token pair id for the given address
 func (k Keeper) DeleteERC721Map(ctx sdk.Context, erc721 common.Address) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	store.Delete(erc721.Bytes())
+	store.Delete([]byte(strings.ToLower(erc721.String())))
 }
 
 // SetClassMap sets the token pair id for the classID
@@ -109,7 +110,7 @@ func (k Keeper) IsTokenPairRegistered(ctx sdk.Context, id []byte) bool {
 // IsERC721Registered check if registered ERC721 token is registered
 func (k Keeper) IsERC721Registered(ctx sdk.Context, erc721 common.Address) bool {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	return store.Has(erc721.Bytes())
+	return store.Has([]byte(strings.ToLower(erc721.String())))
 }
 
 // IsClassRegistered check if registered nft class is registered

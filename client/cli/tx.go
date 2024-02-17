@@ -62,7 +62,14 @@ func NewConvertNFTCmd() *cobra.Command {
 			}
 
 			evmContractAddress := args[2]
+			if evmContractAddress == "" {
+				return fmt.Errorf("evm contract address can not be empty")
+			}
+
 			evmTokenIds := strings.Split(args[3], ",")
+			if len(evmTokenIds) == 0 {
+				return fmt.Errorf("evm token ids can not be empty")
+			}
 
 			var evmReceiver string
 			cosmosSender := cliCtx.GetFromAddress()
@@ -76,7 +83,7 @@ func NewConvertNFTCmd() *cobra.Command {
 			}
 
 			msg := &types.MsgConvertNFT{
-				EvmContractAddress: evmContractAddress,
+				EvmContractAddress: strings.ToLower(evmContractAddress),
 				CosmosTokenIds:     cosmosTokenIds,
 				ClassId:            classId,
 				EvmTokenIds:        evmTokenIds,
@@ -123,7 +130,14 @@ func NewConvertERC721Cmd() *cobra.Command {
 			evmSender := common.BytesToAddress(cliCtx.GetFromAddress().Bytes())
 
 			classId := args[2]
+			if classId == "" {
+				return fmt.Errorf("classId can not be empty")
+			}
+
 			cosmosTokenIds := strings.Split(args[3], ",")
+			if len(cosmosTokenIds) == 0 {
+				return fmt.Errorf("cosmos Token ids can not be empty")
+			}
 
 			cosmosReceiver := cliCtx.GetFromAddress()
 			if len(args) == 5 {
@@ -134,7 +148,7 @@ func NewConvertERC721Cmd() *cobra.Command {
 			}
 
 			msg := &types.MsgConvertERC721{
-				EvmContractAddress: evmContractAddress,
+				EvmContractAddress: strings.ToLower(evmContractAddress),
 				EvmTokenIds:        evmTokenIds,
 				EvmSender:          evmSender.Hex(),
 				CosmosReceiver:     cosmosReceiver.String(),
@@ -186,13 +200,28 @@ func NewTransferERC721Cmd() *cobra.Command {
 				return fmt.Errorf("tokenID can not be empty")
 			}
 			sourcePort := args[2]
-			sourceChannel := args[3]
-			cosmosReceiver := args[4]
-			classId := args[5]
-			cosmosTokenIds := strings.Split(args[6], ",")
+			if sourcePort == "" {
+				return fmt.Errorf("sourcePort can not be empty")
+			}
 
-			if len(evmTokenIds) == 0 {
-				return fmt.Errorf("tokenIDs cannot be empty")
+			sourceChannel := args[3]
+			if sourceChannel == "" {
+				return fmt.Errorf("sourcePort can not be empty")
+			}
+
+			cosmosReceiver := args[4]
+			if cosmosReceiver == "" {
+				return fmt.Errorf("cosmos receiver can not be empty")
+			}
+
+			classId := args[5]
+			if classId == "" {
+				return fmt.Errorf("classId can not be empty")
+			}
+
+			cosmosTokenIds := strings.Split(args[6], ",")
+			if len(cosmosTokenIds) == 0 {
+				return fmt.Errorf("cosmos token ids cannot be empty")
 			}
 
 			timeoutHeightStr, err := cmd.Flags().GetString(flagPacketTimeoutHeight)
@@ -255,7 +284,7 @@ func NewTransferERC721Cmd() *cobra.Command {
 			}
 
 			msg := &types.MsgTransferERC721{
-				EvmContractAddress: evmContractAddress,
+				EvmContractAddress: strings.ToLower(evmContractAddress),
 				EvmTokenIds:        evmTokenIds,
 				SourcePort:         sourcePort,
 				SourceChannel:      sourceChannel,

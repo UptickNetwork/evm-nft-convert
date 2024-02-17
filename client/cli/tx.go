@@ -66,6 +66,9 @@ func NewConvertNFTCmd() *cobra.Command {
 				return fmt.Errorf("evm contract address can not be empty")
 			}
 
+			if args[3] == "" {
+				return fmt.Errorf("evm tokenids can not be empty")
+			}
 			evmTokenIds := strings.Split(args[3], ",")
 			if len(evmTokenIds) == 0 {
 				return fmt.Errorf("evm token ids can not be empty")

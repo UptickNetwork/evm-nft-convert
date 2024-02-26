@@ -77,7 +77,7 @@ func (k Keeper) GetERC721Map(ctx sdk.Context, erc721 common.Address) []byte {
 	//Compatible with older versions
 	val := store.Get([]byte(strings.ToLower(erc721.String())))
 	if len(val) == 0 {
-		val = store.Get([]byte(erc721.String()))
+		val = store.Get(erc721.Bytes())
 	}
 	return val
 }
@@ -118,7 +118,7 @@ func (k Keeper) IsERC721Registered(ctx sdk.Context, erc721 common.Address) bool 
 	//Compatible with older versions
 	val := store.Has([]byte(strings.ToLower(erc721.String())))
 	if !val {
-		store.Has([]byte(erc721.String()))
+		store.Has(erc721.Bytes())
 	}
 	return val
 }

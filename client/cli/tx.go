@@ -62,17 +62,17 @@ func NewConvertNFTCmd() *cobra.Command {
 			}
 
 			evmContractAddress := args[2]
-			if evmContractAddress == "" {
-				return fmt.Errorf("evm contract address can not be empty")
-			}
+			//if evmContractAddress == "" {
+			//	return fmt.Errorf("evm contract address can not be empty")
+			//}
 
-			if args[3] == "" {
-				return fmt.Errorf("evm tokenids can not be empty")
-			}
+			//if args[3] == "" {
+			//	return fmt.Errorf("evm tokenids can not be empty")
+			//}
 			evmTokenIds := strings.Split(args[3], ",")
-			if len(evmTokenIds) == 0 {
-				return fmt.Errorf("evm token ids can not be empty")
-			}
+			//if len(evmTokenIds) == 0 {
+			//	return fmt.Errorf("evm token ids can not be empty")
+			//}
 
 			var evmReceiver string
 			cosmosSender := cliCtx.GetFromAddress()
@@ -136,17 +136,17 @@ func NewConvertERC721Cmd() *cobra.Command {
 			evmSender := common.BytesToAddress(cliCtx.GetFromAddress().Bytes())
 
 			classId := args[2]
-			if classId == "" {
-				return fmt.Errorf("classId can not be empty")
-			}
+			//if classId == "" {
+			//	return fmt.Errorf("classId can not be empty")
+			//}
 
-			if args[3] == "" {
-				return fmt.Errorf("cosmos tokenids can not be empty")
-			}
+			//if args[3] == "" {
+			//	return fmt.Errorf("cosmos tokenids can not be empty")
+			//}
 			cosmosTokenIds := strings.Split(args[3], ",")
-			if len(cosmosTokenIds) == 0 {
-				return fmt.Errorf("cosmos Token ids can not be empty")
-			}
+			//if len(cosmosTokenIds) == 0 {
+			//	return fmt.Errorf("cosmos Token ids can not be empty")
+			//}
 
 			cosmosReceiver := cliCtx.GetFromAddress()
 			if len(args) == 5 {
@@ -227,17 +227,17 @@ func NewTransferERC721Cmd() *cobra.Command {
 			}
 
 			classId := args[5]
-			if classId == "" {
-				return fmt.Errorf("classId can not be empty")
-			}
+			//if classId == "" {
+			//	return fmt.Errorf("classId can not be empty")
+			//}
 
-			if args[6] == "" {
-				return fmt.Errorf("cosmos tokenids can not be empty")
-			}
+			//if args[6] == "" {
+			//	return fmt.Errorf("cosmos tokenids can not be empty")
+			//}
 			cosmosTokenIds := strings.Split(args[6], ",")
-			if len(cosmosTokenIds) == 0 {
-				return fmt.Errorf("cosmos token ids cannot be empty")
-			}
+			//if len(cosmosTokenIds) == 0 {
+			//	return fmt.Errorf("cosmos token ids cannot be empty")
+			//}
 
 			timeoutHeightStr, err := cmd.Flags().GetString(flagPacketTimeoutHeight)
 			if err != nil {

@@ -74,7 +74,12 @@ func (k Keeper) DeleteTokenPair(ctx sdk.Context, tokenPair types.TokenPair) {
 // GetERC721Map returns the token pair id for the given address
 func (k Keeper) GetERC721Map(ctx sdk.Context, erc721 common.Address) []byte {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	return store.Get([]byte(strings.ToLower(erc721.String())))
+	//Compatible with older versions
+	val := store.Get([]byte(strings.ToLower(erc721.String())))
+	if len(val) == 0 {
+		val = store.Get([]byte(erc721.String()))
+	}
+	return val
 }
 
 // GetClassMap returns the token pair id for the given class
@@ -110,7 +115,12 @@ func (k Keeper) IsTokenPairRegistered(ctx sdk.Context, id []byte) bool {
 // IsERC721Registered check if registered ERC721 token is registered
 func (k Keeper) IsERC721Registered(ctx sdk.Context, erc721 common.Address) bool {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefixTokenPairByERC721)
-	return store.Has([]byte(strings.ToLower(erc721.String())))
+	//Compatible with older versions
+	val := store.Has([]byte(strings.ToLower(erc721.String())))
+	if !val {
+		store.Has([]byte(erc721.String()))
+	}
+	return val
 }
 
 // IsClassRegistered check if registered nft class is registered

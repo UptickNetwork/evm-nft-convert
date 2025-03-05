@@ -1,9 +1,9 @@
 package types
 
 import (
+	sdkerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
+	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
 )
 
@@ -33,7 +33,7 @@ func (msg MsgConvertNFT) ValidateBasic() error {
 		return sdkerrors.Wrap(err, "invalid sender address")
 	}
 	if !common.IsHexAddress(msg.EvmReceiver) {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid receiver hex address %s", msg.EvmReceiver)
+		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid receiver hex address %s", msg.EvmReceiver)
 	}
 	return nil
 }
@@ -60,13 +60,13 @@ func (msg MsgConvertERC721) Type() string { return TypeMsgConvertERC721 }
 // ValidateBasic runs stateless checks on the message
 func (msg MsgConvertERC721) ValidateBasic() error {
 	if !common.IsHexAddress(msg.EvmContractAddress) {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
+		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.CosmosReceiver); err != nil {
 		return sdkerrors.Wrap(err, "invalid reciver address")
 	}
 	if !common.IsHexAddress(msg.EvmSender) {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
+		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
 	}
 	return nil
 }
@@ -93,10 +93,10 @@ func (msg MsgTransferERC721) Type() string { return TypeMsgTransferERC721 }
 // ValidateBasic runs stateless checks on the message
 func (msg MsgTransferERC721) ValidateBasic() error {
 	if !common.IsHexAddress(msg.EvmContractAddress) {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
+		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
 	}
 	if !common.IsHexAddress(msg.EvmSender) {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
+		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
 	}
 	return nil
 }

@@ -1,10 +1,9 @@
 package keeper
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
+	sdkerrors "cosmossdk.io/errors"
 	"github.com/UptickNetwork/evm-nft-convert/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // GetPair checks that:

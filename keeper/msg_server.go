@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"github.com/UptickNetwork/evm-nft-convert/contracts"
 	"math/big"
 	"strings"
 
@@ -12,12 +13,12 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
+	sdkerrors "cosmossdk.io/errors"
 	"github.com/UptickNetwork/evm-nft-convert/types"
 	"github.com/UptickNetwork/uptick/contracts"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	nftTypes "github.com/UptickNetwork/uptick/x/collection/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 var _ types.MsgServer = &Keeper{}
@@ -110,7 +111,7 @@ func (k Keeper) ConvertERC721(
 	bigTokenId := new(big.Int)
 	_, err = fmt.Sscan(msg.EvmTokenIds[0], bigTokenId)
 	if err != nil {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error scanning value", err)
+		return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error scanning value", err)
 	}
 
 	owner, err := k.QueryERC721TokenOwner(ctx, erc721, bigTokenId)
@@ -118,7 +119,7 @@ func (k Keeper) ConvertERC721(
 		return nil, sdkerrors.Wrapf(err, "failed to QueryERC721TokenOwner %v", err)
 	}
 	if owner != sender {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not the owner of erc721 token %s", sender, strings.Join(msg.EvmTokenIds, ","))
+		return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s is not the owner of erc721 token %s", sender, strings.Join(msg.EvmTokenIds, ","))
 	}
 
 	if acc == nil || !acc.IsContract() {
@@ -213,7 +214,7 @@ func (k Keeper) convertCosmos2Evm(
 		bigTokenId := new(big.Int)
 		_, err := fmt.Sscan(tokenId, bigTokenId)
 		if err != nil {
-			sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error scanning value", err)
+			sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error scanning value", err)
 			return nil, err
 		}
 		bigTokenIds = append(bigTokenIds, bigTokenId)
@@ -263,7 +264,7 @@ func (k Keeper) convertCosmos2Evm(
 				return nil, err
 			}
 		} else {
-			return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not the owner of erc721 token %s", types.ModuleAddress, msg.EvmTokenIds)
+			return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s is not the owner of erc721 token %s", types.ModuleAddress, msg.EvmTokenIds)
 		}
 
 		// Mint tokens and send to receiver
@@ -316,7 +317,7 @@ func (k Keeper) convertEvm2Cosmos(
 		bigTokenId := new(big.Int)
 		_, err := fmt.Sscan(tokenId, bigTokenId)
 		if err != nil {
-			return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error scanning", err)
+			return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error scanning", err)
 		}
 
 		reqInfo, err := k.QueryNFTEnhance(ctx, contract, bigTokenId)
@@ -325,7 +326,7 @@ func (k Keeper) convertEvm2Cosmos(
 			"safeTransferFrom", sender, types.ModuleAddress, bigTokenId,
 		)
 		if err != nil {
-			return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error safeTransferFrom ", err)
+			return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error safeTransferFrom ", err)
 		}
 
 		// query erc721 token
@@ -366,7 +367,7 @@ func (k Keeper) convertEvm2Cosmos(
 				Recipient: msg.CosmosReceiver,
 			}
 			if _, err = k.nftKeeper.TransferNFT(ctx, &transferNft); err != nil {
-				return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error MsgTransferNFT ", err)
+				return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error MsgTransferNFT ", err)
 			}
 		}
 	}
@@ -411,7 +412,7 @@ func (k Keeper) RefundPacketToken(
 		bigTokenId := new(big.Int)
 		_, err := fmt.Sscan(emvTokenId, bigTokenId)
 		if err != nil {
-			sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error scanning value", err)
+			sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error scanning value", err)
 			return err
 		}
 

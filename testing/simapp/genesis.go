@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	ibcsimapp "github.com/cosmos/ibc-go/v7/testing/simapp"
+	ibcsimapp "github.com/cosmos/ibc-go/v8/testing/simapp"
 )
 
 // NewDefaultGenesisState generates the default state for the application.

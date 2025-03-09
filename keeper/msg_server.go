@@ -15,7 +15,6 @@ import (
 
 	sdkerrors "cosmossdk.io/errors"
 	"github.com/UptickNetwork/evm-nft-convert/types"
-	"github.com/UptickNetwork/uptick/contracts"
 	nftTypes "github.com/UptickNetwork/uptick/x/collection/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
@@ -352,7 +351,7 @@ func (k Keeper) convertEvm2Cosmos(
 
 			// mint nft
 			if _, err = k.nftKeeper.MintNFT(ctx, &mintNFT); err != nil {
-				return nil, sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s error MsgMintNFT ", err)
+				return nil, sdkerrors.Wrapf(errortypes.ErrUnauthorized, "%s error MsgMintNFT ", err)
 			}
 
 		} else {

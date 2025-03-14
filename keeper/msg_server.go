@@ -76,7 +76,7 @@ func (k Keeper) ConvertERC721(
 	goCtx context.Context,
 	msg *types.MsgConvertERC721,
 ) (
-	*types.MsgConvertERC721, error,
+	*types.MsgConvertERC721Response, error,
 ) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	//classId, nftId
@@ -132,7 +132,17 @@ func (k Keeper) ConvertERC721(
 		return nil, sdkerrors.Wrapf(err, "failed to self destructed %v", err)
 	}
 
-	return k.convertEvm2Cosmos(ctx, pair, msg, sender) //
+	msgconverterc721, err := k.convertEvm2Cosmos(ctx, pair, msg, sender) //
+	if err != nil {
+	}
+	return &types.MsgConvertERC721Response{
+		EvmContractAddress: msgconverterc721.EvmContractAddress,
+		EvmTokenIds:        msgconverterc721.EvmTokenIds,
+		CosmosReceiver:     msgconverterc721.CosmosReceiver,
+		EvmSender:          msgconverterc721.EvmSender,
+		ClassId:            msgconverterc721.ClassId,
+		CosmosTokenIds:     msgconverterc721.EvmTokenIds,
+	}, nil
 
 }
 

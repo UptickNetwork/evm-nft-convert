@@ -1,6 +1,7 @@
 syntax = "proto3";
 package uptick.erc721.v1;
 
+import "cosmos/msg/v1/msg.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "ibc/core/client/v1/client.proto";
@@ -9,6 +10,7 @@ option go_package = "github.com/UptickNetwork/evm-nft-convert/types";
 
 // Msg defines the erc721 Msg service.
 service Msg {
+  option (cosmos.msg.v1.service) = true;
   // ConvertNFT mints a ERC721 representation of the native Cosmos nft
   // that is registered on the token mapping.
   rpc ConvertNFT(MsgConvertNFT) returns (MsgConvertNFTResponse) {
@@ -28,6 +30,7 @@ service Msg {
 
 // MsgConvertNFT defines a Msg to convert a native Cosmos nft to a ERC721 token
 message MsgConvertNFT {
+  option (cosmos.msg.v1.signer) = "cosmos_sender";
   // nft classID to cnvert to ERC721
   string class_id = 1;
   // nftID to cnvert to ERC721
@@ -48,6 +51,7 @@ message MsgConvertNFTResponse {}
 // MsgConvertERC721 defines a Msg to convert a ERC721 token to a native Cosmos
 // nft.
 message MsgConvertERC721 {
+  option (cosmos.msg.v1.signer) = "evm_sender";
   // ERC721 token contract address registered in a token pair
   string evm_contract_address = 1;
   // tokenID to convert
@@ -80,6 +84,7 @@ message MsgConvertERC721Response {
 
 //MsgTransferERC721 defines a message for transferring erc721 tokens through IBC
 message MsgTransferERC721 {
+  option (cosmos.msg.v1.signer) = "evm_sender";
   // evm_contract_address is the ERC721 token contract address
   string evm_contract_address = 1;
   // tokenID to convert

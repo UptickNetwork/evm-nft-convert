@@ -45,8 +45,7 @@ require (
 	github.com/UptickNetwork/uptick v0.2.20-0.20250309113750-8b3fcbb94575
 	github.com/bianjieai/nft-transfer v1.1.3-ibc-v8.6.1
 	github.com/cosmos/gogoproto v1.7.0
-	github.com/cosmos/ibc-go/v8 v8.6.1
-	github.com/gogo/protobuf v1.3.2
+	github.com/cosmos/ibc-go/v8 v8.7.0
 
 )
 
@@ -104,6 +103,7 @@ require (
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
+	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/flatbuffers v1.12.1 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
@@ -271,15 +271,4 @@ replace (
 	cosmossdk.io/api => github.com/informalsystems/cosmos-sdk/api v0.7.5-lsm
 	github.com/evmos/ethermint => github.com/bianjieai/ethermint v0.22.0-irishub-20240512.0.20250103062036-dc2ecd5cc643
 
-// use cosmos fork of keyring
-//github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
-//github.com/cosmos/ibc-go/v7 => github.com/uptSmart/ibc-go/v7 v7.3.0-erc20
-
-//github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.1
-//github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
-//github.com/cosmos/cosmos-sdk/store => cosmossdk.io/store v1.1.1
-//github.com/cosmos/cosmos-sdk/x/evidence => cosmossdk.io/x/evidence v0.1.1
-//github.com/cosmos/cosmos-sdk/x/feegrant => cosmossdk.io/x/feegrant v0.1.1
-//github.com/cosmos/cosmos-sdk/x/nft => cosmossdk.io/x/nft v0.1.1
-//github.com/cosmos/cosmos-sdk/x/upgrade => cosmossdk.io/x/upgrade v0.1.4
 )

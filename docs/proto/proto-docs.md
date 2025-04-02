@@ -324,6 +324,7 @@ nft.
 | `evm_sender` | [string](#string) |  | sender hex address from the owner of the given ERC721 tokens |
 | `class_id` | [string](#string) |  | nft classID to cnvert to ERC721 |
 | `cosmos_token_ids` | [string](#string) | repeated | nftID to cnvert to ERC721 |
+| `signer` | [string](#string) |  |  |
 
 
 

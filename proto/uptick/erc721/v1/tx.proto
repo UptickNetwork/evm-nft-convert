@@ -51,7 +51,7 @@ message MsgConvertNFTResponse {}
 // MsgConvertERC721 defines a Msg to convert a ERC721 token to a native Cosmos
 // nft.
 message MsgConvertERC721 {
-  option (cosmos.msg.v1.signer) = "evm_sender";
+  option (cosmos.msg.v1.signer) = "signer";
   // ERC721 token contract address registered in a token pair
   string evm_contract_address = 1;
   // tokenID to convert
@@ -64,6 +64,8 @@ message MsgConvertERC721 {
   string class_id = 5;
   // nftID to cnvert to ERC721
   repeated string cosmos_token_ids = 6;
+
+  string signer = 7;
 }
 
 // MsgConvertERC721Response returns no fields

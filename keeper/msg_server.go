@@ -162,7 +162,7 @@ func (k Keeper) ConvertNFT(
 	if err != nil {
 		return nil, err
 	}
-	msg.EvmContractAddress = contractAddress
+	msg.EvmContractAddress = strings.ToLower(contractAddress)
 	msg.EvmTokenIds = tokenIds
 
 	// Error checked during msg validation
@@ -217,7 +217,7 @@ func (k Keeper) convertCosmos2Evm(
 
 	erc721 := contracts.ERC721UpticksContract.ABI
 	contract := pair.GetERC721Contract()
-	msg.EvmContractAddress = contract.String()
+	msg.EvmContractAddress = strings.ToLower(contract.String())
 
 	for i, tokenId := range msg.EvmTokenIds {
 		bigTokenId := new(big.Int)

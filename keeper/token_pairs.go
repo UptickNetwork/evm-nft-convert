@@ -1,11 +1,11 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"strings"
-
 	"github.com/ethereum/go-ethereum/common"
+	"strings"
 
 	"github.com/UptickNetwork/evm-nft-convert/types"
 )
@@ -15,7 +15,7 @@ func (k Keeper) GetTokenPairs(ctx sdk.Context) []types.TokenPair {
 	tokenPairs := []types.TokenPair{}
 
 	store := ctx.KVStore(k.storeKey)
-	iterator := sdk.KVStorePrefixIterator(store, types.KeyPrefixTokenPair)
+	iterator := storetypes.KVStorePrefixIterator(store, types.KeyPrefixTokenPair)
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {

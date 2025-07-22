@@ -2,10 +2,10 @@ syntax = "proto3";
 package uptick.erc721.v1;
 
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "uptick/erc721/v1/genesis.proto";
-import "uptick/erc721/v1/erc721.proto";
-import "google/api/annotations.proto";
 import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "uptick/erc721/v1/erc721.proto";
+import "uptick/erc721/v1/genesis.proto";
 
 option go_package = "github.com/UptickNetwork/evm-nft-convert/types";
 
@@ -19,6 +19,11 @@ service Query {
   // TokenPair retrieves a registered token pair
   rpc TokenPair(QueryTokenPairRequest) returns (QueryTokenPairResponse) {
     option (google.api.http).get = "/uptick/erc721/v1/token_pairs/{token}";
+  }
+
+  // EvmContract retrieves a registered evm contract
+  rpc EvmContract(QueryEvmAddressRequest) returns (QueryEvmAddressResponse) {
+    option (google.api.http).get = "/uptick/erc721/v1/evm_contract";
   }
 
   // Params retrieves the erc721 module params
@@ -37,7 +42,7 @@ message QueryTokenPairsRequest {
 // QueryTokenPairsResponse is the response type for the Query/TokenPairs RPC
 // method.
 message QueryTokenPairsResponse {
-  repeated TokenPair token_pairs = 1 [ (gogoproto.nullable) = false ];
+  repeated TokenPair token_pairs = 1 [(gogoproto.nullable) = false];
   // pagination defines the pagination in the response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
@@ -49,20 +54,25 @@ message QueryTokenPairRequest {
   string token = 1;
 }
 
+// QueryTokenPairResponse is the response type for the Query/TokenPair RPC
+// method.
+message QueryTokenPairResponse {
+  TokenPair token_pair = 1 [(gogoproto.nullable) = false];
+}
+
 // QueryTokenPairRequest is the request type for the Query/TokenPair RPC method.
 message QueryEvmAddressRequest {
   // token identifier can be either the hex contract address of the ERC721 or
   // the Cosmos nft classID
   string port = 1;
   string channel = 2;
-  string classId = 3;
+  string class_id = 3;
 }
 
-
-// QueryTokenPairResponse is the response type for the Query/TokenPair RPC
+// QueryEvmAddressResponse is the response type for the Query/Params RPC
 // method.
-message QueryTokenPairResponse {
-  TokenPair token_pair = 1 [ (gogoproto.nullable) = false ];
+message QueryEvmAddressResponse {
+  TokenPair token_pair = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -71,5 +81,5 @@ message QueryParamsRequest {}
 // QueryParamsResponse is the response type for the Query/Params RPC
 // method.
 message QueryParamsResponse {
-  Params params = 1 [ (gogoproto.nullable) = false ];
+  Params params = 1 [(gogoproto.nullable) = false];
 }

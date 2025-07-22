@@ -5,7 +5,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
+	"cosmossdk.io/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
@@ -72,7 +72,7 @@ func (k Keeper) Params(c context.Context, _ *types.QueryParamsRequest) (*types.Q
 }
 
 // EvmContract returns a given registered token pair
-func (k Keeper) EvmContract(c context.Context, req *types.QueryEvmAddressRequest) (*types.QueryTokenPairResponse, error) {
+func (k Keeper) EvmContract(c context.Context, req *types.QueryEvmAddressRequest) (*types.QueryEvmAddressResponse, error) {
 
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "empty request")
@@ -92,6 +92,6 @@ func (k Keeper) EvmContract(c context.Context, req *types.QueryEvmAddressRequest
 		return nil, status.Errorf(codes.NotFound, "token pair with token '%s'", token)
 	}
 
-	return &types.QueryTokenPairResponse{TokenPair: pair}, nil
+	return &types.QueryEvmAddressResponse{TokenPair: pair}, nil
 
 }

@@ -15,8 +15,8 @@ import (
 
 	"github.com/UptickNetwork/evm-nft-convert/types"
 	ibcnfttransfertypes "github.com/bianjieai/nft-transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
-	channelutils "github.com/cosmos/ibc-go/v7/modules/core/04-channel/client/utils"
+	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
+	channelutils "github.com/cosmos/ibc-go/v8/modules/core/04-channel/client/utils"
 	"time"
 )
 
@@ -163,6 +163,7 @@ func NewConvertERC721Cmd() *cobra.Command {
 				CosmosReceiver:     cosmosReceiver.String(),
 				ClassId:            classId,
 				CosmosTokenIds:     cosmosTokenIds,
+				Signer:             cliCtx.GetFromAddress().String(),
 			}
 
 			if err := msg.ValidateBasic(); err != nil {

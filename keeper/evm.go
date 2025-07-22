@@ -2,10 +2,10 @@ package keeper
 
 import (
 	"encoding/json"
+	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
@@ -15,6 +15,7 @@ import (
 	"github.com/evmos/ethermint/server/config"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
+	sdkerrors "cosmossdk.io/errors"
 	"github.com/UptickNetwork/evm-nft-convert/contracts"
 	"github.com/UptickNetwork/evm-nft-convert/types"
 )
@@ -288,7 +289,7 @@ func (k Keeper) CallEVMWithData(
 			Data: (*hexutil.Bytes)(&data),
 		})
 		if err != nil {
-			return nil, sdkerrors.Wrapf(sdkerrors.ErrJSONMarshal, "failed to marshal tx args: %s", err.Error())
+			return nil, sdkerrors.Wrapf(errortypes.ErrJSONMarshal, "failed to marshal tx args: %s", err.Error())
 		}
 
 		gasRes, err := k.evmKeeper.EstimateGas(sdk.WrapSDKContext(ctx), &evmtypes.EthCallRequest{

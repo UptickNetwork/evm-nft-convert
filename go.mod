@@ -8,7 +8,7 @@ require (
 	github.com/btcsuite/btcd/btcutil v1.1.6 // indirect
 	github.com/cometbft/cometbft v0.38.17
 	github.com/cometbft/cometbft-db v0.14.1 // indirect
-	github.com/cosmos/cosmos-sdk v0.50.11-lsm
+	github.com/cosmos/cosmos-sdk v0.50.11
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/evmos/ethermint v1.10.26
@@ -42,7 +42,7 @@ require cosmossdk.io/math v1.4.0 // indirect
 
 require (
 	cosmossdk.io/simapp v0.0.0-20240118210941-3897926e722e // indirect
-	github.com/UptickNetwork/uptick v0.2.20-0.20250731060240-654330510d5c
+	github.com/UptickNetwork/uptick v0.2.20-0.20250731130611-606bfe80c51a
 	github.com/bianjieai/nft-transfer v1.1.3-ibc-v8.6.1
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/cosmos/ibc-go/v8 v8.7.0
@@ -270,7 +270,8 @@ require (
 )
 
 replace (
-	cosmossdk.io/api => github.com/informalsystems/cosmos-sdk/api v0.7.5-lsm
+	github.com/UptickNetwork/uptick => github.com/UptickNetwork/uptick v0.2.20-0.20250731130611-606bfe80c51a
+	github.com/UptickNetwork/wasm-nft-convert => github.com/UptickNetwork/wasm-nft-convert v1.0.7-0.20250731061656-32beb6a675a4
+	//cosmossdk.io/api => github.com/informalsystems/cosmos-sdk/api v0.7.5-lsm
 	github.com/evmos/ethermint => github.com/bianjieai/ethermint v0.23.0-irishub
-
 )

@@ -133,7 +133,7 @@ func NewConvertERC721Cmd() *cobra.Command {
 				return fmt.Errorf("tokenID can not be empty")
 			}
 
-			evmSender := common.BytesToAddress(cliCtx.GetFromAddress().Bytes())
+			cosmosSender := cliCtx.GetFromAddress()
 
 			classId := args[2]
 			//if classId == "" {
@@ -159,7 +159,7 @@ func NewConvertERC721Cmd() *cobra.Command {
 			msg := &types.MsgConvertERC721{
 				EvmContractAddress: strings.ToLower(evmContractAddress),
 				EvmTokenIds:        evmTokenIds,
-				EvmSender:          evmSender.Hex(),
+				CosmosSender:       cosmosSender.String(),
 				CosmosReceiver:     cosmosReceiver.String(),
 				ClassId:            classId,
 				CosmosTokenIds:     cosmosTokenIds,
@@ -197,7 +197,7 @@ func NewTransferERC721Cmd() *cobra.Command {
 				return err
 			}
 
-			evmSender := common.BytesToAddress(cliCtx.GetFromAddress().Bytes())
+			cosmosSender := cliCtx.GetFromAddress()
 
 			evmContractAddress := args[0]
 			if err := ethermint.ValidateAddress(evmContractAddress); err != nil {
@@ -305,7 +305,7 @@ func NewTransferERC721Cmd() *cobra.Command {
 				SourceChannel:      sourceChannel,
 				ClassId:            classId,
 				CosmosTokenIds:     cosmosTokenIds,
-				EvmSender:          evmSender.Hex(),
+				CosmosSender:       cosmosSender.String(),
 				CosmosReceiver:     cosmosReceiver,
 				TimeoutHeight:      timeoutHeight,
 				TimeoutTimestamp:   timeoutTimestamp,

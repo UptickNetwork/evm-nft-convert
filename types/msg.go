@@ -65,8 +65,9 @@ func (msg MsgConvertERC721) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.CosmosReceiver); err != nil {
 		return sdkerrors.Wrap(err, "invalid reciver address")
 	}
-	if !common.IsHexAddress(msg.EvmSender) {
-		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
+
+	if _, err := sdk.AccAddressFromBech32(msg.CosmosSender); err != nil {
+		return sdkerrors.Wrap(err, "invalid sender address")
 	}
 	return nil
 }
@@ -78,8 +79,8 @@ func (msg *MsgConvertERC721) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgConvertERC721) GetSigners() []sdk.AccAddress {
-	addr := common.HexToAddress(msg.EvmSender)
-	return []sdk.AccAddress{addr.Bytes()}
+	addr := sdk.MustAccAddressFromBech32(msg.CosmosSender)
+	return []sdk.AccAddress{addr}
 }
 
 // ----------- MsgTransferERC721 --------------------
@@ -95,8 +96,9 @@ func (msg MsgTransferERC721) ValidateBasic() error {
 	if !common.IsHexAddress(msg.EvmContractAddress) {
 		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid contract hex address '%s'", msg.EvmContractAddress)
 	}
-	if !common.IsHexAddress(msg.EvmSender) {
-		return sdkerrors.Wrapf(errortypes.ErrInvalidAddress, "invalid sender hex address %s", msg.EvmSender)
+
+	if _, err := sdk.AccAddressFromBech32(msg.CosmosSender); err != nil {
+		return sdkerrors.Wrap(err, "invalid sender address")
 	}
 	return nil
 }
@@ -108,6 +110,6 @@ func (msg *MsgTransferERC721) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgTransferERC721) GetSigners() []sdk.AccAddress {
-	addr := common.HexToAddress(msg.EvmSender)
-	return []sdk.AccAddress{addr.Bytes()}
+	addr := sdk.MustAccAddressFromBech32(msg.CosmosSender)
+	return []sdk.AccAddress{addr}
 }

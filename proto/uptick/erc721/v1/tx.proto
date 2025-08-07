@@ -51,7 +51,7 @@ message MsgConvertNFTResponse {}
 // MsgConvertERC721 defines a Msg to convert a ERC721 token to a native Cosmos
 // nft.
 message MsgConvertERC721 {
-  option (cosmos.msg.v1.signer) = "evm_sender";
+  option (cosmos.msg.v1.signer) = "cosmos_sender";
   // ERC721 token contract address registered in a token pair
   string evm_contract_address = 1;
   // tokenID to convert
@@ -59,7 +59,7 @@ message MsgConvertERC721 {
   // bech32 address to receive native Cosmos coins
   string cosmos_receiver = 3;
   // sender hex address from the owner of the given ERC721 tokens
-  string evm_sender = 4;
+  string cosmos_sender = 4;
   // nft classID to cnvert to ERC721
   string class_id = 5;
   // nftID to cnvert to ERC721
@@ -84,7 +84,7 @@ message MsgConvertERC721Response {
 
 //MsgTransferERC721 defines a message for transferring erc721 tokens through IBC
 message MsgTransferERC721 {
-  option (cosmos.msg.v1.signer) = "evm_sender";
+  option (cosmos.msg.v1.signer) = "cosmos_sender";
   // evm_contract_address is the ERC721 token contract address
   string evm_contract_address = 1;
   // tokenID to convert
@@ -98,7 +98,7 @@ message MsgTransferERC721 {
   //the non fungible tokens to be transferred
   repeated string cosmos_token_ids = 6;
   //the sender address
-  string evm_sender = 7;
+  string cosmos_sender = 7;
   //  the recipient address on the destination chain
   string cosmos_receiver = 8;
   // timeout_height is the timeout height relative to the current block height

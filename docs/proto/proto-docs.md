@@ -321,10 +321,9 @@ nft.
 | `evm_contract_address` | [string](#string) |  | ERC721 token contract address registered in a token pair |
 | `evm_token_ids` | [string](#string) | repeated | tokenID to convert |
 | `cosmos_receiver` | [string](#string) |  | bech32 address to receive native Cosmos coins |
-| `evm_sender` | [string](#string) |  | sender hex address from the owner of the given ERC721 tokens |
+| `cosmos_sender` | [string](#string) |  | sender hex address from the owner of the given ERC721 tokens |
 | `class_id` | [string](#string) |  | nft classID to cnvert to ERC721 |
 | `cosmos_token_ids` | [string](#string) | repeated | nftID to cnvert to ERC721 |
-| `signer` | [string](#string) |  |  |
 
 
 
@@ -395,7 +394,7 @@ MsgTransferERC721 defines a message for transferring erc721 tokens through IBC
 | `source_channel` | [string](#string) |  | the channel by which the packet will be sent |
 | `class_id` | [string](#string) |  | the class_id of tokens to be transferred |
 | `cosmos_token_ids` | [string](#string) | repeated | the non fungible tokens to be transferred |
-| `evm_sender` | [string](#string) |  | the sender address |
+| `cosmos_sender` | [string](#string) |  | the sender address |
 | `cosmos_receiver` | [string](#string) |  | the recipient address on the destination chain |
 | `timeout_height` | [ibc.core.client.v1.Height](#ibc.core.client.v1.Height) |  | timeout_height is the timeout height relative to the current block height The timeout is disabled when set to 0 |
 | `timeout_timestamp` | [uint64](#uint64) |  | timeout_timestamp is the timeout timestamp in absolute nanoseconds since unix epoch The timeout is disabled when set to 0 |

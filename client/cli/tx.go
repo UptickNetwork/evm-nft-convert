@@ -163,7 +163,6 @@ func NewConvertERC721Cmd() *cobra.Command {
 				CosmosReceiver:     cosmosReceiver.String(),
 				ClassId:            classId,
 				CosmosTokenIds:     cosmosTokenIds,
-				Signer:             cliCtx.GetFromAddress().String(),
 			}
 
 			if err := msg.ValidateBasic(); err != nil {

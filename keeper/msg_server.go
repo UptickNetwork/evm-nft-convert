@@ -149,7 +149,7 @@ func (k Keeper) ConvertERC721(
 		CosmosReceiver:     msgconverterc721.CosmosReceiver,
 		EvmSender:          evmSender.Hex(),
 		ClassId:            msgconverterc721.ClassId,
-		CosmosTokenIds:     msgconverterc721.EvmTokenIds,
+		CosmosTokenIds:     msgconverterc721.CosmosTokenIds,
 	}, nil
 
 }

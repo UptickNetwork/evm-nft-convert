@@ -58,7 +58,7 @@ message MsgConvertERC721 {
   repeated string evm_token_ids = 2;
   // bech32 address to receive native Cosmos coins
   string cosmos_receiver = 3;
-  // sender hex address from the owner of the given ERC721 tokens
+  // sender bech32 address from the owner of the given ERC721 tokens
   string cosmos_sender = 4;
   // nft classID to cnvert to ERC721
   string class_id = 5;

@@ -61,18 +61,18 @@ message MsgConvertNFT {
 // MsgConvertERC721 defines a Msg to convert a ERC721 token to a native Cosmos
 // nft.
 message MsgConvertERC721 {
-  // ERC721 token contract address registered in a token pair
-  string evm_contract_address = 1;
-  // tokenID to convert
-  repeated string evm_token_ids = 2;
-  // bech32 address to receive native Cosmos coins
-  string cosmos_receiver = 3;
-  // sender hex address from the owner of the given ERC721 tokens
-  string evm_sender = 4;
-  // nft classID to cnvert to ERC721
-  string class_id = 5;
-  // nftID to cnvert to ERC721
-  repeated string cosmos_token_ids = 6;
+    // ERC721 token contract address registered in a token pair
+    string evm_contract_address = 1;
+    // tokenID to convert
+    repeated string evm_token_ids = 2;
+    // bech32 address to receive native Cosmos coins
+    string cosmos_receiver = 3;
+    // sender bech32 address from the owner of the given ERC721 tokens
+    string cosmos_sender = 4;
+    // nft classID to cnvert to ERC721
+    string class_id = 5;
+    // nftID to cnvert to ERC721
+    repeated string cosmos_token_ids = 6;
 }
 ```
 `evm_contract_address` ERC721 token contract address registered in a token pair.
@@ -81,7 +81,7 @@ message MsgConvertERC721 {
 
 `cosmos_receiver` bech32 address to receive native Cosmos coins.
 
-`evm_sender` sender hex address from the owner of the given ERC721 tokens.
+`cosmos_sender` sender bech32 address from the owner of the given ERC721 tokens.
 
 `classId` is a required field that MUST never be empty, it uniquely identifies the class/collection/contract which the tokens being transferred belong to in the sending chain. In the case of an ERC-1155 compliant smart contract, for example, this could be a string representation of the top 128 bits of the token ID.
 

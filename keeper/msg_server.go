@@ -36,7 +36,7 @@ func (k Keeper) TransferERC721(
 		EvmContractAddress: msg.EvmContractAddress,
 		EvmTokenIds:        msg.EvmTokenIds,
 		CosmosReceiver:     types.AccModuleAddress.String(),
-		EvmSender:          msg.EvmSender,
+		CosmosSender:       msg.CosmosSender,
 		ClassId:            msg.ClassId,
 		CosmosTokenIds:     msg.CosmosTokenIds,
 	}
@@ -61,9 +61,10 @@ func (k Keeper) TransferERC721(
 	if err != nil {
 		return nil, sdkerrors.Wrapf(err, "failed to ibc Transfer %v", err)
 	}
-
+	bech32Address, _ := sdk.AccAddressFromBech32(msg.CosmosSender)
+	sender := common.BytesToAddress(bech32Address.Bytes())
 	for _, evmTokenId := range msg.CosmosTokenIds {
-		k.SetEvmAddressByContractTokenId(ctx, msg.EvmContractAddress, evmTokenId, msg.EvmSender)
+		k.SetEvmAddressByContractTokenId(ctx, msg.EvmContractAddress, evmTokenId, sender.Hex())
 	}
 
 	return &types.MsgTransferERC721Response{}, nil
@@ -88,7 +89,10 @@ func (k Keeper) ConvertERC721(
 	msg.CosmosTokenIds = nftIds
 
 	// Error checked during msg validation
-	sender := common.HexToAddress(msg.EvmSender)
+	//sender := common.HexToAddress(msg.EvmSender)
+	bech32Address, _ := sdk.AccAddressFromBech32(msg.CosmosSender)
+	sender := common.BytesToAddress(bech32Address.Bytes())
+
 	id := k.GetTokenPairID(ctx, msg.EvmContractAddress)
 	if len(id) == 0 {
 
@@ -135,13 +139,17 @@ func (k Keeper) ConvertERC721(
 	msgconverterc721, err := k.convertEvm2Cosmos(ctx, pair, msg, sender) //
 	if err != nil {
 	}
+
+	convertAddress, _ := sdk.AccAddressFromBech32(msgconverterc721.CosmosSender)
+	evmSender := common.BytesToAddress(convertAddress.Bytes())
+
 	return &types.MsgConvertERC721Response{
 		EvmContractAddress: msgconverterc721.EvmContractAddress,
 		EvmTokenIds:        msgconverterc721.EvmTokenIds,
 		CosmosReceiver:     msgconverterc721.CosmosReceiver,
-		EvmSender:          msgconverterc721.EvmSender,
+		EvmSender:          evmSender.Hex(),
 		ClassId:            msgconverterc721.ClassId,
-		CosmosTokenIds:     msgconverterc721.EvmTokenIds,
+		CosmosTokenIds:     msgconverterc721.CosmosTokenIds,
 	}, nil
 
 }
@@ -390,7 +398,7 @@ func (k Keeper) convertEvm2Cosmos(
 		sdk.Events{
 			sdk.NewEvent(
 				types.EventTypeConvertERC721,
-				sdk.NewAttribute(sdk.AttributeKeySender, msg.EvmSender),
+				sdk.NewAttribute(sdk.AttributeKeySender, msg.CosmosSender),
 				sdk.NewAttribute(types.AttributeKeyReceiver, msg.CosmosReceiver),
 				sdk.NewAttribute(types.AttributeKeyNFTClass, pair.ClassId),
 				sdk.NewAttribute(types.AttributeKeyNFTID, strings.Join(msg.CosmosTokenIds, ",")),

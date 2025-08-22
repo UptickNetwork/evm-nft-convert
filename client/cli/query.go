@@ -129,6 +129,7 @@ func GetParamsCmd() *cobra.Command {
 	return cmd
 }
 
+// GetEvmAddressFromIBCCmd queries a evm contract from ibc info
 func GetEvmAddressFromIBCCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "evm-contract [port] [channel] [classId]",

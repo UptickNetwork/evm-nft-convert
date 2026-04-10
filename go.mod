@@ -42,7 +42,7 @@ require cosmossdk.io/math v1.4.0 // indirect
 
 require (
 	cosmossdk.io/simapp v0.0.0-20240118210941-3897926e722e // indirect
-	github.com/UptickNetwork/uptick v0.2.20-0.20250731130611-606bfe80c51a
+	github.com/UptickNetwork/uptick v0.3.2-0.20260410092836-cc698785a89b
 	github.com/bianjieai/nft-transfer v1.1.3-ibc-v8.6.1
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/cosmos/ibc-go/v8 v8.7.0
@@ -53,6 +53,7 @@ require (
 	cosmossdk.io/log v1.5.0
 	cosmossdk.io/store v1.1.1
 	cosmossdk.io/x/nft v0.1.1
+	github.com/cosmos/cosmos-db v1.1.1
 )
 
 require (
@@ -75,7 +76,7 @@ require (
 	github.com/DataDog/datadog-go v3.2.0+incompatible // indirect
 	github.com/DataDog/zstd v1.5.5 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/UptickNetwork/wasm-nft-convert v1.1.0 // indirect
+	github.com/UptickNetwork/wasm-nft-convert v1.1.4-0.20260410093902-1ad1fba6dfba // indirect
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/bits-and-blooms/bitset v1.20.0 // indirect
 	github.com/bytedance/sonic v1.12.3 // indirect
@@ -90,7 +91,6 @@ require (
 	github.com/cockroachdb/redact v1.1.5 // indirect
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
 	github.com/consensys/gnark-crypto v0.18.0 // indirect
-	github.com/cosmos/cosmos-db v1.1.1 // indirect
 	github.com/cosmos/go-bip39 v1.0.0 // indirect
 	github.com/cosmos/gogogateway v1.2.0 // indirect
 	github.com/cosmos/ibc-go/modules/capability v1.0.1 // indirect
@@ -175,7 +175,7 @@ require (
 	cloud.google.com/go/iam v1.1.9 // indirect
 	cloud.google.com/go/storage v1.41.0 // indirect; indirectx
 	cosmossdk.io/errors v1.0.1
-	filippo.io/edwards25519 v1.1.0 // indirect
+	filippo.io/edwards25519 v1.1.1 // indirect
 	github.com/99designs/keyring v1.2.2 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
 	github.com/VictoriaMetrics/fastcache v1.12.2 // indirect
@@ -221,7 +221,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/gsterjov/go-libsecret v0.0.0-20161001094733-a6f4afe4910c // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-getter v1.7.5 // indirect
+	github.com/hashicorp/go-getter v1.7.9 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
@@ -279,7 +279,5 @@ require (
 
 replace (
 	cosmossdk.io/tools/rosetta => cosmossdk.io/tools/rosetta v0.2.1-0.20230613133644-0a778132a60f
-	github.com/UptickNetwork/uptick => github.com/UptickNetwork/uptick v0.2.20-0.20250731130611-606bfe80c51a
-	github.com/UptickNetwork/wasm-nft-convert => github.com/UptickNetwork/wasm-nft-convert v1.0.7-0.20250731061656-32beb6a675a4
-	github.com/evmos/ethermint => github.com/UptickNetwork/ethermint v0.24.1-0.20260410052113-f2b0d61294a0
+	github.com/evmos/ethermint => github.com/UptickNetwork/ethermint v0.24.1-0.20260410091811-934a7c684d59
 )

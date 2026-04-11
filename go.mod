@@ -76,7 +76,7 @@ require (
 	github.com/DataDog/datadog-go v3.2.0+incompatible // indirect
 	github.com/DataDog/zstd v1.5.5 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/UptickNetwork/wasm-nft-convert v1.1.4-0.20260410093902-1ad1fba6dfba // indirect
+	github.com/UptickNetwork/wasm-nft-convert v1.1.4-0.20260411025755-daf0acc1e846 // indirect
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/bits-and-blooms/bitset v1.20.0 // indirect
 	github.com/bytedance/sonic v1.12.3 // indirect
@@ -279,5 +279,5 @@ require (
 
 replace (
 	cosmossdk.io/tools/rosetta => cosmossdk.io/tools/rosetta v0.2.1-0.20230613133644-0a778132a60f
-	github.com/evmos/ethermint => github.com/UptickNetwork/ethermint v0.24.1-0.20260410091811-934a7c684d59
+	github.com/evmos/ethermint => github.com/UptickNetwork/ethermint v0.24.1-0.20260411025020-ba867a4df9f4
 )

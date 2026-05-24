@@ -685,10 +685,10 @@ github.com/StackExchange/wmi v1.2.1 h1:VIkavFPXSjcnS+O8yTq7NI32k0R5Aj+v39y29VYDO
 github.com/StackExchange/wmi v1.2.1/go.mod h1:rcmrprowKIVzvc+NUiLncP2uuArMWLCbu9SBzvHz7e8=
 github.com/UptickNetwork/ethermint v0.24.1-uptick h1:N9Zv8oTGXtCjr8yI1DBohKQeA3VGlhfFF1DoJVGSRZo=
 github.com/UptickNetwork/ethermint v0.24.1-uptick/go.mod h1:pQLLrCywO0OQPmy/gF0LmZzljUWLsg1ZdT+EM58gZ1o=
-github.com/UptickNetwork/uptick v0.3.2-0.20260410092836-cc698785a89b h1:D3qHAhsMR0dkagVQwtN/DleU5qFidDNbvXiitB8e+n8=
-github.com/UptickNetwork/uptick v0.3.2-0.20260410092836-cc698785a89b/go.mod h1:lQls2Pzk0uo1bSU0CMaR6R5TM2I+t1MVRyiUPy3QpJg=
-github.com/UptickNetwork/wasm-nft-convert v1.2.0 h1:OYpiT8RdcTW6f2zaErmd6OPPLY0Q6SfmyFtbNvfsyRs=
-github.com/UptickNetwork/wasm-nft-convert v1.2.0/go.mod h1:ltOr/Ny0ykjyVR7BK/QbhF8jrAtaiwbdPygt7uyLfjI=
+github.com/UptickNetwork/uptick v0.3.3-0.20260523061247-a06fa3b8a24b h1:rDPrM04WDnn8/S6VkJl9uGhUpJydTN/kKJERUYoLTOI=
+github.com/UptickNetwork/uptick v0.3.3-0.20260523061247-a06fa3b8a24b/go.mod h1:becLIAG0Yu2pkedmMruA/Ojd/LqYA9yW4XZKMAP1Fy4=
+github.com/UptickNetwork/wasm-nft-convert v1.2.1 h1:Un5pd1ltK5ocyxbFH1AXck3A752Jen6uVOzU9PIAZd0=
+github.com/UptickNetwork/wasm-nft-convert v1.2.1/go.mod h1:HDKZJutNbXeiqV9PWW9Dol6YxlfdSdqsi+dVH5Kw2OM=
 github.com/VictoriaMetrics/fastcache v1.6.0/go.mod h1:0qHz5QP0GMX4pfmMA/zt5RgfNuXJrTP0zS7DqpHGGTw=
 github.com/VictoriaMetrics/fastcache v1.12.2 h1:N0y9ASrJ0F6h0QaC3o6uJb3NIZ9VKLjCM7NQbSmF7WI=
 github.com/VictoriaMetrics/fastcache v1.12.2/go.mod h1:AmC+Nzz1+3G2eCPapF6UcsnkThDcMsQicp4xDukwJYI=

@@ -35,18 +35,16 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20250204164813-702378808489
 	google.golang.org/grpc v1.70.0
 	sigs.k8s.io/yaml v1.4.0 // indirect
-
 )
 
 require cosmossdk.io/math v1.4.0 // indirect
 
 require (
 	cosmossdk.io/simapp v0.0.0-20240118210941-3897926e722e // indirect
-	github.com/UptickNetwork/uptick v0.3.2-0.20260410092836-cc698785a89b
+	github.com/UptickNetwork/uptick v0.3.3-0.20260523061247-a06fa3b8a24b
 	github.com/bianjieai/nft-transfer v1.1.3-ibc-v8.6.1
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/cosmos/ibc-go/v8 v8.7.0
-
 )
 
 require (
@@ -76,7 +74,7 @@ require (
 	github.com/DataDog/datadog-go v3.2.0+incompatible // indirect
 	github.com/DataDog/zstd v1.5.5 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/UptickNetwork/wasm-nft-convert v1.2.0 // indirect
+	github.com/UptickNetwork/wasm-nft-convert v1.2.1 // indirect
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/bits-and-blooms/bitset v1.20.0 // indirect
 	github.com/bytedance/sonic v1.12.3 // indirect

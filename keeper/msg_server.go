@@ -136,8 +136,9 @@ func (k Keeper) ConvertERC721(
 		return nil, sdkerrors.Wrapf(err, "failed to self destructed %v", err)
 	}
 
-	msgconverterc721, err := k.convertEvm2Cosmos(ctx, pair, msg, sender) //
+	msgconverterc721, err := k.convertEvm2Cosmos(ctx, pair, msg, sender)
 	if err != nil {
+		return nil, sdkerrors.Wrapf(err, "failed to convert EVM to cosmos: %v", err)
 	}
 
 	convertAddress, _ := sdk.AccAddressFromBech32(msgconverterc721.CosmosSender)
@@ -266,7 +267,7 @@ func (k Keeper) convertCosmos2Evm(
 			if err != nil {
 				// mint normal
 				_, err = k.CallEVM(
-					ctx, erc721, receiver, contract, true,
+					ctx, erc721, types.ModuleAddress, contract, true,
 					"mint", receiver, bigTokenIds[i], reqInfo.GetURI())
 				if err != nil {
 					return nil, err
@@ -338,6 +339,10 @@ func (k Keeper) convertEvm2Cosmos(
 		}
 
 		reqInfo, err := k.QueryNFTEnhance(ctx, contract, bigTokenId)
+		if err != nil {
+			return nil, sdkerrors.Wrapf(err, "failed to query NFT enhance: %v", err)
+		}
+
 		_, err = k.CallEVM(
 			ctx, erc721, sender, contract, true,
 			"safeTransferFrom", sender, types.ModuleAddress, bigTokenId,
@@ -421,6 +426,10 @@ func (k Keeper) RefundPacketToken(
 ) error {
 
 	erc721 := contracts.ERC721UpticksContract.ABI
+	var refundedTokenIds []string
+	var refundedContract string
+	var refundedReceiver common.Address
+
 	for _, tokenId := range data.TokenIds {
 
 		uNftID := types.CreateNFTUID(data.ClassId, tokenId)
@@ -433,13 +442,50 @@ func (k Keeper) RefundPacketToken(
 			return err
 		}
 
-		evmReceiver := k.GetEvmAddressByContractTokenId(ctx, evmContractAddress, tokenId)
-		_, err = k.CallEVM(
-			ctx, erc721, types.ModuleAddress, common.HexToAddress(evmContractAddress), true,
-			"safeTransferFrom", types.ModuleAddress, common.HexToAddress(string(evmReceiver)), bigTokenId)
+		contract := common.HexToAddress(evmContractAddress)
+
+		// Check if token has already been refunded
+		owner, err := k.QueryERC721TokenOwner(ctx, contract, bigTokenId)
 		if err != nil {
 			return err
 		}
+		if owner != types.ModuleAddress {
+			continue
+		}
+
+		evmReceiver := k.GetEvmAddressByContractTokenId(ctx, evmContractAddress, tokenId)
+		receiver := common.HexToAddress(string(evmReceiver))
+
+		_, err = k.CallEVM(
+			ctx, erc721, types.ModuleAddress, contract, true,
+			"safeTransferFrom", types.ModuleAddress, receiver, bigTokenId)
+		if err != nil {
+			return err
+		}
+
+		k.DeleteEvmAddressByContractTokenId(ctx, evmContractAddress, tokenId)
+		k.DeleteNFTPairByNFTID(ctx, data.ClassId, tokenId)
+		k.DeleteNFTPairByTokenID(ctx, evmContractAddress, emvTokenId)
+
+		refundedTokenIds = append(refundedTokenIds, tokenId)
+		refundedContract = evmContractAddress
+		refundedReceiver = receiver
+	}
+
+	if len(refundedTokenIds) > 0 {
+		ctx.EventManager().EmitEvents(
+			sdk.Events{
+				sdk.NewEvent(
+					types.EventTypeRefundPacketToken,
+					sdk.NewAttribute(sdk.AttributeKeySender, data.Sender),
+					sdk.NewAttribute(types.AttributeKeyReceiver, refundedReceiver.Hex()),
+					sdk.NewAttribute(types.AttributeKeyNFTClass, data.ClassId),
+					sdk.NewAttribute(types.AttributeKeyNFTID, strings.Join(refundedTokenIds, ",")),
+					sdk.NewAttribute(types.AttributeKeyERC721Token, refundedContract),
+					sdk.NewAttribute(types.AttributeKeyERC721TokenID, strings.Join(refundedTokenIds, ",")),
+				),
+			},
+		)
 	}
 
 	return nil
